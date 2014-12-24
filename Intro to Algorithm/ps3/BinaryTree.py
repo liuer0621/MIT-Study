@@ -76,13 +76,57 @@ class BinaryTree():
 			self.printTree(root.getLeft())
 			print root.getValue(),root.getHeight()
 			self.printTree(root.getRight())	
-	
 
-	def printGraph(self,root):
-		if root == None :
-			pass
-	
-		else :
+
+	def printGraph(self):
+		queue = [self.root]
+		out = []
+		current_level = self.root.getHeight()
+		zeroNode = Node(-1)
+		zeroNode.setHeight(-1)
+		cellWidth = 2
+		maxWidth = (cellWidth + 1) * 2**self.maxHeight
+		blankNo = int((maxWidth/(2**0) - cellWidth) / 2)
+		
+		while len(queue) > 0 :
+			
+			current_node = queue.pop(0)
+#			import pdb;pdb.set_trace()
+			
+			if current_node.getHeight() > current_level :
+				current_level += 1
+                                blankNo = int((maxWidth/(2**current_level) - cellWidth) / 2)
+				out.append("\n")
+				for i in range(blankNo):
+					out.append(' ')
+			
+			else :
+				for i in range(blankNo) :
+					out.append(' ')
+
+			if current_node.getValue() == -1 :
+				out.append(' ')
+			else :
+				out.append(str(current_node.getValue()))
+			for i in range(blankNo) :
+				out.append(' ')
+
+			if current_node.getLeft() is not None :
+				queue.append(current_node.getLeft())
+			elif current_node is not zeroNode :
+				queue.append(zeroNode)
+
+			if current_node.getRight() is not None :
+				queue.append(current_node.getRight())
+
+			elif current_node is not zeroNode :
+				queue.append(zeroNode)
+
+		output = "".join(out).split("\n")
+		print output
+		print "".join(out)
+		
+						
 			
 
 
@@ -95,5 +139,5 @@ for newValue in input :
 	tree.insertChild(newNode,tree.root,0)	
 
 
-tree.printTree(tree.root)
-tree.printGraph(tree.root)
+#tree.printTree(tree.root)
+tree.printGraph()
